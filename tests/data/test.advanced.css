@@ -1,0 +1,95 @@
+@font-face {
+	font-family: "superCoolFont";
+	src: url("mysuperCoolFont300.ttf");
+	src: url("mysuperCoolFont300.eot") format("embedded-opentype"),
+	url("mysuperCoolFont300.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+i[class*=" icon-"],
+i[class^=icon-] {
+	display:inline-block;
+	font-family: superCoolFont;
+	font-style:normal;
+	font-weight:400;
+	line-height:1;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+
+@page {
+	margin: 1in;
+	size: portrait;
+}
+
+@media screen and (min-width: 680px) {
+	body {
+		background-color: gainsboro;
+	}
+}
+
+@keyframes test {
+	from {background-color: black;}
+	to {background-color: white;}
+}
+
+body {
+	color: #444444;
+	padding: 4em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.nav > li {
+	background: white;
+	margin: 0.5em 0;
+	padding: 0.3em;
+	border-right: 1em solid black;
+}
+
+#firstname {
+	border: 15px solid transparent;
+	border-image: url(personname.png) 33%;
+}
+
+h1, h2, h3, h4 {
+	background: url(alternative-bg.png) beige;
+	border: 3px solid rgba(0,0,0,.3);
+}
+
+span[title~=cool],
+div[title~=cool] {
+	border-image: url(cool.png)
+}
+
+[target=_blank] {
+	background-color: red;
+	animation-name: test;
+	animation-duration: 4s;
+}
+
+a[href$=".pdf"] > span:nth-of-type(2) {
+	width: 100px;
+	height: 100px;
+}
+
+p::before {
+	content:  "\f012";
+}
+
+form > input:required {
+	-webkit-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-ms-transform:rotate(180deg);
+	-o-transform:rotate(180deg);
+	transform:rotate(180deg);
+}
+
+form {
+	font-size:8px;
+	font-size:1.63rem;
+	display:block;
+	line-height:20px;
+	color:#666;
+	width: calc(100% - 128px);
+}
