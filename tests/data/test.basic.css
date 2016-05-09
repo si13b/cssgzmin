@@ -1,0 +1,16 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+.someClass {
+	padding: 4px;
+	margin: 0;
+	width: auto !important;
+	box-shadow: 2px 4px 0 rgba(255, 0, 0, 0.5);
+}
+
+.someClass > .something {
+	border: 1px solid mediumvioletred;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "cssgzmin",
+  "version": "1.0.0",
+  "description": "A port of barryvan's GZip optimised CSS Minifier to JS",
+  "main": "src/sheetProcessor.js",
+  "bin": "src/cli.js",
+  "directories": {
+    "test": "tests"
+  },
+  "engines": {
+    "node" : ">=6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/si13b/cssgzmin.git"
+  },
+  "scripts": {
+    "lint": "eslint **/*.js",
+    "test": "mocha --recursive tests/"
+  },
+  "keywords": [
+    "css",
+    "min",
+    "cssmin",
+    "zip",
+    "minification",
+    "postcss"
+  ],
+  "license": "BSD-2-Clause",
+  "author": {
+    "name": "Simon Bracegirdle",
+    "url": "https://github.com/si13b/"
+  },
+  "dependencies": {
+    "ramda": "^0.21.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
+  }
+}
