@@ -17,11 +17,11 @@ const minify = content => serialise(process(content));
  * @returns {object[]} Collection of rule objects processed.
  */
 const process = content => {
-	let lastFoundIdx = 0;
 	let braceCount = 0;
 	let inComment = false;
 	let prevCh = null;
 	let idx = 0;
+	let buf = '';
 	const rules = [];
 
 	for (const ch of content) {
@@ -35,15 +35,20 @@ const process = content => {
 		} else if (ch === '/' && nextCh === '*') {
 			inComment = true;
 		} else if (ch === '{') {
+			buf += ch;
 			braceCount += 1;
 		} else if (ch === '}') {
+			buf += ch;
 			braceCount -= 1;
 
 			// Finished a rule block, lets grab it into a buffer
 			if (braceCount === 0) {
-				rules.push(ruleProcessor.process(content.substring(lastFoundIdx, idx + 1)));
-				lastFoundIdx = idx + 1;
+				const rule = ruleProcessor.process(buf);
+				if (rule) rules.push(rule);
+				buf = '';
 			}
+		} else {
+			buf += ch;
 		}
 
 		prevCh = ch;

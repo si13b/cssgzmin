@@ -64,10 +64,10 @@ const processSimple = (selector, contents) => {
 
 	contents = contents.substring(0, contents.length - 1); // Strip closing brace
 
-	return {
+	return contents.length ? {
 		selector,
 		properties: processProperties(contents)
-	};
+	} : null;
 };
 
 /**
@@ -110,7 +110,7 @@ const processNested = (selector, contents) => {
 
 	return {
 		selector,
-		rules: rules.map(process)
+		rules: rules.map(process).filter(rule => !!rule)
 	};
 };
 

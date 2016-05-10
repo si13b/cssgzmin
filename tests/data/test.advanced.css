@@ -7,8 +7,10 @@
 	font-style: normal;
 }
 
+/*More comments*/
 i[class*=" icon-"],
 i[class^=icon-] {
+	/*Some comments and what not*/
 	display:inline-block;
 	font-family: superCoolFont;
 	font-style:normal;
@@ -25,13 +27,17 @@ i[class^=icon-] {
 
 @media screen and (min-width: 680px) {
 	body {
-		background-color: gainsboro;
+		background-color: gainsboro; /* Ooooh, a media query */
 	}
 }
 
 @keyframes test {
 	from {background-color: black;}
 	to {background-color: white;}
+}
+
+html {
+	/* Empty block, get rid of me! */
 }
 
 body {

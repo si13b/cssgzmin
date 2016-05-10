@@ -5,6 +5,10 @@ const process = require('../src/ruleProcessor').process,
 	assert = require('chai').assert;
 
 describe('ruleProcessor tests', () => {
+	it('should return null if empty rule', () => {
+		assert.notOk(process('body {   } '));
+	});
+
 	it('should perform correct parsing for single value property', () => {
 		assert.deepEqual(process('body {margin: 0px; padding: 0px; width: 100%;}'), {
 			selector: 'body',
