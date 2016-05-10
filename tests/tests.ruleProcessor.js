@@ -9,6 +9,30 @@ describe('ruleProcessor tests', () => {
 		assert.notOk(process('body {   } '));
 	});
 
+	it('should remove multiple unnecessary whitespace from direct descendant operators', () => {
+		assert.deepEqual(process('\t .mySelectorA > a  > div   > p {\tcolor: red; }'), {
+			selector: '.mySelectorA>a>div>p',
+			properties: [
+				{
+					property: 'color',
+					parts: ['red']
+				}
+			]
+		});
+	});
+
+	it('should remove multiple unnecessary whitespace from between comma separated selectors', () => {
+		assert.deepEqual(process('\t .mySelectorA, \n\t.mySelectorB {\tcolor: red; }'), {
+			selector: '.mySelectorA,.mySelectorB',
+			properties: [
+				{
+					property: 'color',
+					parts: ['red']
+				}
+			]
+		});
+	});
+
 	it('should perform correct parsing for single value property', () => {
 		assert.deepEqual(process('body {margin: 0px; padding: 0px; width: 100%;}'), {
 			selector: 'body',

@@ -29,7 +29,14 @@ i[class^=icon-] {
 	body {
 		background-color: gainsboro; /* Ooooh, a media query */
 	}
+
+	.selectorA,
+	.selectorB {
+		background: red;
+	}
 }
+
+/* long comment ************************************************************ */
 
 @keyframes test {
 	from {background-color: black;}
@@ -99,3 +106,13 @@ form {
 	color:#666;
 	width: calc(100% - 128px);
 }
+
+.gzMinifier .list .item,
+.cssMinifier .list .item {
+	border-bottom: solid 1px #cccccc;
+	padding: 4px;
+	cursor: pointer;
+	background: inherit;
+	clear: both;
+}
+
