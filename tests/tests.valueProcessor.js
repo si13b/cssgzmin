@@ -80,6 +80,11 @@ describe('valueProcessor tests', () => {
 			'var(--MYcolor2)', 'variable case animation name should be untouched');
 		assert.strictEqual(simplify({property: 'background', part: 'var(          --MYcolor2)'}),
 			'var(--MYcolor2)', 'variable case animation name should be untouched');
+
+		assert.strictEqual(simplify({property: 'content', part: '\'I do the things\''}),
+			'\'I do the things\'', 'content quotes should not be touched');
+		assert.strictEqual(simplify({property: 'content', part: '\'things\''}),
+			'\'things\'', 'content quotes should not be touched');
 	});
 
 	it('should replace colour names/code with shortest possiblity', () => {
@@ -106,5 +111,12 @@ describe('valueProcessor tests', () => {
 			'#fa00ff', 'fa00ff cannot be reduced');
 		assert.strictEqual(simplify({property: 'color', part: '#f0f'}),
 			'#f0f', 'f0f already reduced');
+	});
+
+	it('should not strip surrounding values when reducing hex colour codes', () => {
+		assert.strictEqual(simplify({property: 'color', part: '1px solid #ff00ff'}),
+			'1px solid #f0f', 'ff00ff can be reduced, shouldn\'t remove border props');
+		assert.strictEqual(simplify({property: 'color', part: 'dotted #442277 2px'}),
+			'dotted #427 2px', '442277 can be reduced, shouldn\'t remove border props');
 	});
 });

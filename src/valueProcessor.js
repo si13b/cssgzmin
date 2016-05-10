@@ -103,7 +103,7 @@ const simplifyQuotesAndCaps = (property, part) => {
 	} else {
 		const words = part.split(/\s/g);
 
-		if (words.length === 1) {
+		if (property !== 'content' && words.length === 1) {
 			if (property.toLowerCase() !== 'animation-name') {
 				part = part.toLowerCase(); // Make everything lower case (except animation name)
 			}
@@ -134,13 +134,13 @@ const simplifyColourNames = (property, part) => {
  * @returns {string} The updated contents
  */
 const simplifyHexColours = (property, part) => {
-	const regex = (/#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])/g);
+	const regex = (/(.*)#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])(.*)/g);
 	const result = regex.exec(part);
 	if (result) {
-		const pairs = [[result[1], result[2]], [result[3], result[4]], [result[5], result[6]]];
+		const pairs = [[result[2], result[3]], [result[4], result[5]], [result[6], result[7]]];
 
 		if (R.all(pair => pair[0].toLowerCase() === pair[1].toLowerCase(), pairs)) {
-			part = '#' + pairs.map(pair => pair[0]).join('');
+			part = result[1] + '#' + pairs.map(pair => pair[0]).join('') + result[8];
 		}
 	}
 

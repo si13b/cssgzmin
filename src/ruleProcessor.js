@@ -18,8 +18,7 @@ const process = rule => {
 		throw Error(`Rule has less than two parts (${rule})`);
 	}
 
-	let selector = parts[0].trim().replace(/\s?(\+|~|,|=|~=|\^=|\$=|\*=|\|=|>)\s?/g, '$1');
-	selector = selector.trim().replace(/\s?(\+|~|,|=|~=|\^=|\$=|\*=|\|=|>)\s?/g, '$1');
+	const selector = parts[0].trim().replace(/\s*(\+|~|,|=|~=|\^=|\$=|\*=|\|=|>)\s*/g, '$1');
 
 	if (parts.length > 2) {
 		return processNested(selector, rule.substring(rule.indexOf('{') + 1).trim());
