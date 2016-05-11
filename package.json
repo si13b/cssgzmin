@@ -1,6 +1,6 @@
 {
   "name": "cssgzmin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A port of barryvan's GZip optimised CSS Minifier to JS",
   "main": "src/sheetProcessor.js",
   "bin": "src/cli.js",
