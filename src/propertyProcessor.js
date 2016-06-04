@@ -79,11 +79,11 @@ const serialise = ({property, parts}) => {
  */
 const sanitiseName = name => {
 	name = name.trim();
-
+	
 	if (!name.startsWith('--')) {
 		name = name.toLowerCase();
 	}
-
+	
 	return name;
 };
 
@@ -93,25 +93,37 @@ const sanitiseName = name => {
  * @param {string} b The second property name
  * @returns {number} Negative if a is before b. Positive if a is after b. Zero if equal.
  */
-const comparator = (a, b) => stripPrefixes(a).localeCompare(stripPrefixes(b));
+const comparator = (a, b) => handlePrefixes(a).localeCompare(handlePrefixes(b));
 
 /**
- * Strip any hack prefixes e.g. * or vendor prefixes (e.g. -webkit-) from a property name.
+ * Handle any hack prefixes e.g. * or vendor prefixes (e.g. -webkit-) from a property name, so that they can be
+ * ordered as-if they did not have those prefixes, but still appear before their standard equivalents.
+ *
  * Vendor prefixes will be replaced as suffixes, for the purposes of sorting.
+ *
+ * Anything else will be have a high-value character code suffixed, to ensure they appear after prefixed properties.
+ *
  * @param {string} name The property name
  * @returns {string} Tidied property name
  */
-const stripPrefixes = (name) => {
+const handlePrefixes = (name) => {
 	if (!name) return name;
 
 	if (name.charAt(0) === '-') { // If vendor prefix, replace as suffix
 		name = name.substring(1);
-		name = name.substring(name.indexOf('-') + 1);
+		const prefix = name.substring(0, name.indexOf('-') + 1);
+		name = name.substring(name.indexOf('-') + 1).replace('-', '~');
+		name += '-' + prefix;
 	} else if (name.charCodeAt(0) < 65) { // If not alphanum, strip it
 		name = name.substring(1);
+		name = name.replace(/-/g, '~');
+		name += '~'; // Add high value character to the end of non-prefixed values to ensure they always appear after.
+	} else {
+		name += '~'; // Add high value character to the end of non-prefixed values to ensure they always appear after.
+		name = name.replace(/-/g, '~');
 	}
-
+	
 	return name;
 };
 
-module.exports = {process, parse, simplify, serialise, stripPrefixes, comparator};
+module.exports = {process, parse, simplify, serialise, handlePrefixes, comparator};
