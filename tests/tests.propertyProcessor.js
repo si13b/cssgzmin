@@ -2,7 +2,7 @@
  * Created by Simon on 6/05/2016.
  */
 const parse = require('../src/propertyProcessor').parse,
-	stripPrefixes = require('../src/propertyProcessor').stripPrefixes,
+	handlePrefixes = require('../src/propertyProcessor').handlePrefixes,
 	comparator = require('../src/propertyProcessor').comparator,
 	assert = require('chai').assert;
 
@@ -35,19 +35,28 @@ describe('propertyProcessor tests', () => {
 			'box shadow with multiple values');
 	});
 
-	describe('stripPrefixes', () => {
-		it('should strip prefixes if provided', () => {
-			assert.strictEqual(stripPrefixes('*transform'), 'transform', 'Hack prefix');
-			assert.strictEqual(stripPrefixes('-webkit-transform'), 'transform', 'Vendor prefix');
-			assert.strictEqual(stripPrefixes('transform'), 'transform', 'No prefix');
+	describe('handlePrefixes', () => {
+		it('should handle prefixes if provided', () => {
+			assert.strictEqual(handlePrefixes('*transform'), 'transform~', 'Hack prefix');
+			assert.strictEqual(handlePrefixes('-webkit-transform'),
+				'transform-webkit-', 'Vendor prefix should become suffix');
+			assert.strictEqual(handlePrefixes('transform'), 'transform~', 'No prefix, should add ~ suffix');
+			assert.strictEqual(handlePrefixes('border-weight'), 'border~weight~',
+				'No prefix, should add ~ suffix and replace - with ~');
+			assert.strictEqual(handlePrefixes('-webkit-border-weight'), 'border~weight-webkit-',
+				'Prefixed should move to suffix and replace non prefix - with ~');
 		});
 	});
 
 	describe('comparator', () => {
 		it('should order property names correctly', () => {
+			assert.strictEqual(comparator('-webkit-border', 'border-weight'), -1,
+				'Prefix before property naturally ordered after');
+			assert.strictEqual(comparator('border', 'border-weight'), -1, 'Border before border weight');
 			assert.strictEqual(comparator('font-size', 'font-weight'), -1, 'Font size before weight');
 			assert.strictEqual(comparator('*transform', 'transform'), 0, 'Hack prefix should be equal');
-			assert.strictEqual(comparator('-webkit-transform', 'transform'), 0, 'Vendor prefix should be equal');
+			assert.strictEqual(comparator('-webkit-transform', '-moz-transform'), 1, 'Webkit should appear after moz');
+			assert.strictEqual(comparator('-webkit-transform', 'transform'), -1, 'Vendor prefix should be before');
 			assert.strictEqual(comparator('padding', 'margin'), 1, 'Margin before padding');
 			assert.strictEqual(comparator('z-index', 'width'), 1, 'Z-index after width');
 		});
